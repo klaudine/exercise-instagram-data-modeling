@@ -21,9 +21,8 @@ class User(Base):
 class Post(Base):
     __tablename__ = 'posts'
     id = Column(Integer, primary_key=True, nullable=False)
-    person_id = Column(Integer, ForeignKey('user.id'))
-    person = relationship(User)
     created = Column(DateTime)
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
 
     user = relationship('User', back_populates='posts')
     comments = relationship('Comment', back_populates='posts')
@@ -31,9 +30,8 @@ class Post(Base):
 class Comment(Base):
     __tablename__ = 'comments'
     id = Column(Integer, primary_key=True, nullable=False)
-    person_id = Column(Integer, ForeignKey('user.id'))
-    person = relationship(User)
     created = Column(DateTime)
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
 
     user = relationship('User', back_populates='comments')
     posts = relationship('Post', back_populates='comments')
@@ -44,7 +42,8 @@ class Follower(Base):
     username = Column(String(200), nullable=False)
     name = Column(String(200), nullable=False)
     email = Column(String(250), nullable=False, unique=True)
-    person = relationship(User)
+    
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
 
 
 
